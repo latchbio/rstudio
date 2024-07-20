@@ -41,8 +41,7 @@ import org.rstudio.studio.client.workbench.model.RemoteFileSystemContext;
 import org.rstudio.studio.client.workbench.views.files.FilesConstants;
 import org.rstudio.studio.client.workbench.views.files.model.PendingFileUpload;
 
-public class FileUploadDialog extends HtmlFormModalDialog<PendingFileUpload>
-{
+public class FileUploadDialog extends HtmlFormModalDialog<PendingFileUpload> {
    public FileUploadDialog(
          String actionURL,
          FileSystemItem targetDirectory,
@@ -50,8 +49,7 @@ public class FileUploadDialog extends HtmlFormModalDialog<PendingFileUpload>
          RemoteFileSystemContext fileSystemContext,
          Operation beginOperation,
          OperationWithInput<PendingFileUpload> completedOperation,
-         Operation failedOperation)
-   {
+         Operation failedOperation) {
       super(constants_.uploadFilesTitle(),
             Roles.getDialogRole(),
             constants_.uploadingFileProgressMessage(),
@@ -63,101 +61,93 @@ public class FileUploadDialog extends HtmlFormModalDialog<PendingFileUpload>
       fileSystemContext_ = fileSystemContext;
       targetDirectory_ = targetDirectory;
    }
-   
+
    @Override
-   protected void positionAndShowDialog(final Command onCompleted)
-   {
+   protected void positionAndShowDialog(final Command onCompleted) {
       final PopupPanel thisPanel = this;
       setPopupPositionAndShow(new PopupPanel.PositionCallback() {
-         public void setPosition(int offsetWidth, int offsetHeight)
-         {
-            int left = (Window.getClientWidth()/2) - (offsetWidth/2);
-            int top = (Window.getClientHeight()/2) - (offsetHeight/2);
-            // clip the top so the choose file dialog always appears 
+         public void setPosition(int offsetWidth, int offsetHeight) {
+            int left = (Window.getClientWidth() / 2) - (offsetWidth / 2);
+            int top = (Window.getClientHeight() / 2) - (offsetHeight / 2);
+            // clip the top so the choose file dialog always appears
             // over the file upload dialog (mostly a problem on osx)
             top = Math.min(top, 200);
-            
+
             thisPanel.setPopupPosition(left, top);
-            
+
             onCompleted.execute();
          }
       });
    }
-   
+
    @Override
-   protected void setFormPanelEncodingAndMethod(FormPanel formPanel)
-   {
-      // NOTE: FormPanel is technically the wrong GWT abstraction to use here because it presumes a response
-      // type of text/html, whereas our file upload endpoint actually returns JSON (coerced to HTML).
+   protected void setFormPanelEncodingAndMethod(FormPanel formPanel) {
+      // NOTE: FormPanel is technically the wrong GWT abstraction to use here because
+      // it presumes a response
+      // type of text/html, whereas our file upload endpoint actually returns JSON
+      // (coerced to HTML).
       formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
       formPanel.setMethod(FormPanel.METHOD_POST);
    }
 
    @Override
-   protected PendingFileUpload parseResults(String results) throws Exception
-   {
-      // Use strict parsing mode here since the results object contains untrusted file/path names
-      RpcResponse response = RpcResponse.parseStrict(results);
+   protected PendingFileUpload parseResults(String results) throws Exception {
+      // Use strict parsing mode here since the results object contains untrusted
+      // file/path names
+      RpcResponse response = RpcResponse.parseUnsafe(results);
       if (response == null)
          throw new Exception(constants_.unexpectedResponseException());
-      
+
       // check for errors
       RpcError error = response.getError();
-      if (error != null)
-      {
-         // special error message if we know the user failed to 
+      if (error != null) {
+         // special error message if we know the user failed to
          // select a directory
          if (error.getCode() == RpcError.PARAM_INVALID &&
-             fileUpload_.getFilename().length() == 0)
-         {
+               fileUpload_.getFilename().length() == 0) {
             throw new Exception(constants_.specifyFileToUploadException());
-         }
-         else
-         {
-            throw new Exception(error.getEndUserMessage());  
+         } else {
+            throw new Exception(error.getEndUserMessage());
          }
       }
-      
+
       // return PendingFileUpload
       PendingFileUpload pendingFileUpload = response.getResult();
-      return pendingFileUpload;  
+      return pendingFileUpload;
    }
-   
+
    // NOTE: discovered that GWT was always submitting the form whether
-   // or not we cancelled the SubmitEvent. Perhaps their bug? Anyway, the 
+   // or not we cancelled the SubmitEvent. Perhaps their bug? Anyway, the
    // solution was to always return true for validation and then to check
    // for the empty fileUpload filename above in parseResults (knowing that
    // the server would always return an error if no file was specified)
    @Override
-   protected boolean validate()
-   {
+   protected boolean validate() {
       return true;
    }
 
    @Override
-   protected Widget createMainWidget()
-   {
+   protected Widget createMainWidget() {
       VerticalPanel panel = new VerticalPanel();
       panel.setStyleName(ThemeStyles.INSTANCE.fileUploadPanel());
-        
+
       // directory panel
       HorizontalPanel directoryPanel = new HorizontalPanel();
       directoryPanel.setWidth("100%");
       directoryPanel.setStyleName(ThemeStyles.INSTANCE.fileUploadField());
-      
+
       // target directory chooser
       directoryNameWidget_ = new DirectoryChooserTextBox(constants_.targetDirectoryLabel(),
-         ElementIds.TextBoxButtonId.UPLOAD_TARGET);
+            ElementIds.TextBoxButtonId.UPLOAD_TARGET);
       directoryNameWidget_.setText(targetDirectory_.getPath());
-      directoryNameWidget_.addValueChangeHandler((valueChangeEvent) ->
-      {
+      directoryNameWidget_.addValueChangeHandler((valueChangeEvent) -> {
          targetDirectory_ = FileSystemItem.createDir(valueChangeEvent.getValue());
          targetDirectoryHidden_.setValue(targetDirectory_.getPath());
       });
       directoryPanel.add(directoryNameWidget_);
 
       panel.add(directoryPanel);
-      
+
       // filename field
       fileUpload_ = new FileUpload();
       fileUpload_.setStyleName(ThemeStyles.INSTANCE.fileUploadField());
@@ -166,17 +156,17 @@ public class FileUploadDialog extends HtmlFormModalDialog<PendingFileUpload>
       uploadLabel.addStyleName(ThemeStyles.INSTANCE.fileUploadLabel());
       panel.add(uploadLabel);
       panel.add(fileUpload_);
-      
+
       // zip file tip field
       HTML tip = new HTML(constants_.tipHTML());
       tip.addStyleName(ThemeStyles.INSTANCE.fileUploadField());
       tip.addStyleName(ThemeStyles.INSTANCE.fileUploadTipLabel());
       panel.add(tip);
-      
+
       // target directory hidden field
       targetDirectoryHidden_ = new Hidden("targetDirectory", targetDirectory_.getPath());
       panel.add(targetDirectoryHidden_);
-            
+
       return panel;
    }
 
