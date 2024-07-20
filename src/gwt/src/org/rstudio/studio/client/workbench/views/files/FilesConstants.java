@@ -142,7 +142,6 @@ public interface FilesConstants extends com.google.gwt.i18n.client.Messages {
     @Key("permanentDeleteMessage")
     String permanentDeleteMessage();
 
-
     /**
      * Translated "the {0} selected files".
      *
@@ -209,7 +208,8 @@ public interface FilesConstants extends com.google.gwt.i18n.client.Messages {
     /**
      * Translated "{0} RNotebook files were unable to be processed and opened.".
      *
-     * @return translated "{0} RNotebook files were unable to be processed and opened."
+     * @return translated "{0} RNotebook files were unable to be processed and
+     *         opened."
      */
     @DefaultMessage("{0} RNotebook files were unable to be processed and opened.")
     @Key("fileErrorMessage")
@@ -270,9 +270,11 @@ public interface FilesConstants extends com.google.gwt.i18n.client.Messages {
     String blankFileFailedCaption();
 
     /**
-     * Translated "A blank {0} file named "{1}" was unable to be created.\n\nThe server failed with the following error: \n{2}".
+     * Translated "A blank {0} file named "{1}" was unable to be created.\n\nThe
+     * server failed with the following error: \n{2}".
      *
-     * @return translated "A blank {0} file named "{1}" was unable to be created.\n\nThe server failed with the following error: \n{2}"
+     * @return translated "A blank {0} file named "{1}" was unable to be
+     *         created.\n\nThe server failed with the following error: \n{2}"
      */
     @DefaultMessage("A blank {0} file named \"{1}\" was unable to be created.\\n\\nThe server failed with the following error: \\n{2}")
     @Key("blankFileFailedMessage")
@@ -423,9 +425,13 @@ public interface FilesConstants extends com.google.gwt.i18n.client.Messages {
     String unzipNotFoundCaption();
 
     /**
-     * Translated "The unzip system utility could not be found. unzip is required for decompressing .zip archives after upload.\n\nWould you like to upload the zip archive without unzipping?".
+     * Translated "The unzip system utility could not be found. unzip is required
+     * for decompressing .zip archives after upload.\n\nWould you like to upload the
+     * zip archive without unzipping?".
      *
-     * @return translated "The unzip system utility could not be found. unzip is required for decompressing .zip archives after upload.\n\nWould you like to upload the zip archive without unzipping?"
+     * @return translated "The unzip system utility could not be found. unzip is
+     *         required for decompressing .zip archives after upload.\n\nWould you
+     *         like to upload the zip archive without unzipping?"
      */
     @DefaultMessage("The unzip system utility could not be found. unzip is required for decompressing .zip archives after upload.\\n\\nWould you like to upload the zip archive without unzipping?")
     @Key("unzipNotFoundMessage")
@@ -706,7 +712,7 @@ public interface FilesConstants extends com.google.gwt.i18n.client.Messages {
      *
      * @return translated "Unexpected response from server"
      */
-    @DefaultMessage("Unexpected response from server")
+    @DefaultMessage("Unexpected response from server bingus bongus")
     @Key("unexpectedResponseException")
     String unexpectedResponseException();
 
@@ -756,9 +762,12 @@ public interface FilesConstants extends com.google.gwt.i18n.client.Messages {
     String fileToUploadLabel();
 
     /**
-     * Translated "<b>TIP</b>: To upload multiple files or a directory, create a zip file. The zip file will be automatically expanded after upload.".
+     * Translated "<b>TIP</b>: To upload multiple files or a directory, create a zip
+     * file. The zip file will be automatically expanded after upload.".
      *
-     * @return translated "<b>TIP</b>: To upload multiple files or a directory, create a zip file. The zip file will be automatically expanded after upload."
+     * @return translated "<b>TIP</b>: To upload multiple files or a directory,
+     *         create a zip file. The zip file will be automatically expanded after
+     *         upload."
      */
     @DefaultMessage("<b>TIP</b>: To upload multiple files or a directory, create a zip file. The zip file will be automatically expanded after upload.")
     @Key("tipHTML")
