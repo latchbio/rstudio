@@ -748,7 +748,7 @@ public interface FilesConstants extends com.google.gwt.i18n.client.Messages {
      *
      * @return translated "Target directory:"
      */
-    @DefaultMessage("Target directory:")
+    @DefaultMessage("Target directory bingus bongus:")
     @Key("targetDirectoryLabel")
     String targetDirectoryLabel();
 
