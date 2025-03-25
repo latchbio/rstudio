@@ -518,7 +518,7 @@ generateProgramOptions <- function (optionsJson, overlayOptionsJson) {
    classContents <- paste(classContents, buildOptions, sep="\n\n")
    classContents <- paste(classContents, accessors, sep="\n\n")
    classContents <- paste(classContents, members, sep="\n\n")
-   classContents <- paste(classContents, "  virtual bool allowOverlay() const { return false; };\n")
+   classContents <- paste(classContents, "  virtual bool allowOverlay() const { return true; };\n")
    
    # finally, close out the class
    classContents <- paste0(classContents, "};")
