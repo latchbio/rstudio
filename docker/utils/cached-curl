@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set \
+  -o pipefail \
+  -o errexit \
+  -o nounset
+
+usage() {
+  echo 'Usage: cached-curl <hash> <url> [... curl args]'
+  exit 1
+}
+
+hash="$1"; shift
+if [[ -z ${hash} ]]; then
+  echo 'Error: <hash> is required'
+  usage
+fi
+
+url="$1"; shift
+if [[ -z ${url} ]]; then
+  echo 'Error: <url> is required'
+  usage
+fi
+
+cache_path="/tmp/docker-build/cache/${hash}"
+
+echo "cached-curl: Checking ${url} (${hash})"
+if [[ -f ${cache_path} ]]; then
+  echo '  Found in cache'
+
+  actual_hash=$(sha512sum "${cache_path}" | cut -d ' ' -f 1)
+  if [[ ${actual_hash} = "${hash}" ]]; then
+    echo '  Hash matches'
+    exit
+  fi
+
+  echo "  Hash mismatch: ${actual_hash} != expected ${hash}"
+else
+  echo '  Not found'
+fi
+
+echo "  Downloading into ${cache_path}"
+curl \
+  --location \
+  --fail \
+  --output "${cache_path}" \
+  "${url}" \
+  "$@"
