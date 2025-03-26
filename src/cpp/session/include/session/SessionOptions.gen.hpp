@@ -690,7 +690,7 @@ protected:
    std::string copilotSslCertificatesFile_;
    bool copilotProxyStrictSsl_;
    std::string copilotAgentHelper_;
-   virtual bool allowOverlay() const { return true; };
+   virtual bool allowOverlay() const { return false; };
 };
 
 } // namespace session
